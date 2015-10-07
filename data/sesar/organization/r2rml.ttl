@@ -1,0 +1,72 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix glbase: <http://schema.geolink.org/dev/main#>.
+
+<OrgTriplesMap>
+    a rr:TriplesMap;
+    
+    rr:logicalTable [ rr:tableName "organization" ];
+
+    rr:subjectMap [ rr:template "http://geolink.geosamples.org/id/organization/{org_id}";
+                    rr:class glbase:Organization;
+		  ];
+   
+    rr:predicateObjectMap
+    [
+      rr:predicate           rdfs:label;
+      rr:objectMap           [rr:column "org_name" ]
+    ];
+
+    rr:predicateObjectMap
+    [
+      rr:predicate           glbase:fromCountry;
+      rr:objectMap           [rr:template "http://geolink.geosamples.org/id/country/{country_code}"]
+    ];
+    
+
+    rr:predicateObjectMap
+    [
+      rr:predicate              glbase:hasIdentifier;
+      rr:objectMap
+      [
+        rr:parentTriplesMap <OrgExternalIdTriplesMap>;
+        rr:joinCondition [
+          rr:child "org_id";
+          rr:parent "org_id";
+        ];
+        rr:termType rr:BlankNode;         
+      ];
+    ].
+
+<OrgExternalIdTriplesMap> 
+    a rr:TriplesMap;
+    
+    rr:logicalTable [rr:tableName "org_external_id"];
+
+    rr:subjectMap [rr:template "b_sesar_org_ex_id_{sid}"; 
+                   rr:termType rr:BlankNode;
+                   rr:class glbase:Identifier;
+                  ];
+    rr:predicateObjectMap
+    [
+      rr:predicate                 glbase:hasIdentiferScheme;
+      rr:objectMap	           [rr:column "ex_id_scheme"]
+    ];
+
+    rr:predicateObjectMap
+    [
+      rr:predicate                 glbase:hasIdentifierValue;
+      rr:objectMap                 [rr:column "ex_id"]
+    ];
+
+    rr:predicateObjectMap
+    [
+      rr:predicate                 rdfs:seeAlso;
+      rr:objectMap                 [rr:column "see_also"]     
+    ].
+    
+    
+
