@@ -1,0 +1,23 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix glbase: <http://schema.geolink.org/dev/main#>.
+
+<PersonTriplesMap>
+    a rr:TriplesMap;
+    
+    rr:logicalTable [ rr:tableName "country" ];
+
+    rr:subjectMap [ rr:template "http://geolink.geosamples.org/id/country/{alpha3_code}";
+                    rr:class glbase:Country;
+		  ];
+   
+    rr:predicateObjectMap
+    [
+      rr:predicate           rdfs:label;
+      rr:objectMap           [rr:column "country_name" ]
+    ].
+    
+
